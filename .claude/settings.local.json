@@ -5,7 +5,10 @@
       "PowerShell(npm run *)",
       "Bash(gh auth *)",
       "PowerShell(gh --version 2>&1)",
-      "PowerShell(gh auth status 2>&1)"
+      "PowerShell(gh auth status 2>&1)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "PowerShell(jq -e '.hooks.PostToolUse[] | select\\(.matcher == \"Write|Edit\"\\) | .hooks[] | select\\(.type == \"command\"\\) | .command' \"c:\\\\Users\\\\samue\\\\OneDrive\\\\Documentos\\\\Claude planejamento\\\\.claude\\\\settings.json\")"
     ]
   }
 }

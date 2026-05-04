@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## GitHub Repository
+
+Repositório: https://github.com/samukaa34/claude-planejamento
+
+**Auto-sync ativo:** a cada arquivo editado ou criado por Claude Code, um hook PostToolUse executa automaticamente `git add -A && git commit && git push origin main`. Nenhuma ação manual é necessária para manter o GitHub atualizado.
+
 ## Commands
 
 ```bash
