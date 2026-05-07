@@ -81,11 +81,12 @@ export function emptyMonthData(monthKey, clientId) {
 }
 
 function getPreviousMonthIncome(clientId, monthKey) {
-  const months = getAvailableMonths(clientId)
-  const referenceMonth = months.find((m) => m !== monthKey)
+  const allData = getClientData(clientId)
+  const referenceMonth = Object.values(allData)
+    .filter((m) => m.monthKey !== monthKey && m.savedAt)
+    .sort((a, b) => b.savedAt.localeCompare(a.savedAt))[0]
   if (!referenceMonth) return null
-  const data = getMonthData(clientId, referenceMonth)
-  return data?.income ? deepClone(data.income) : null
+  return referenceMonth.income ? deepClone(referenceMonth.income) : null
 }
 
 export function saveMonthData(clientId, monthKey, monthData) {
