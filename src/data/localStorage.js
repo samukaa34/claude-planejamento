@@ -69,14 +69,23 @@ export function getMonthData(clientId, monthKey) {
   return data[monthKey] || null
 }
 
-export function emptyMonthData(monthKey) {
+export function emptyMonthData(monthKey, clientId) {
+  const previousIncome = clientId ? getPreviousMonthIncome(clientId, monthKey) : null
   return {
     monthKey,
-    income: deepClone(EMPTY_INCOME),
+    income: previousIncome ?? deepClone(EMPTY_INCOME),
     expenses: deepClone(EMPTY_EXPENSES),
     notes: '',
     savedAt: null,
   }
+}
+
+function getPreviousMonthIncome(clientId, monthKey) {
+  const months = getAvailableMonths(clientId)
+  const lastMonth = months.find((m) => m < monthKey)
+  if (!lastMonth) return null
+  const data = getMonthData(clientId, lastMonth)
+  return data?.income ? deepClone(data.income) : null
 }
 
 export function saveMonthData(clientId, monthKey, monthData) {
