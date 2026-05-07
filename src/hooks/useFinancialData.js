@@ -14,7 +14,7 @@ export function useFinancialData(clientId) {
   const refresh = useCallback(() => setMonths(getAvailableMonths(clientId)), [clientId])
 
   const getMonth = useCallback(
-    (monthKey) => getMonthData(clientId, monthKey) || emptyMonthData(monthKey),
+    (monthKey) => getMonthData(clientId, monthKey) || emptyMonthData(monthKey, clientId),
     [clientId],
   )
 
