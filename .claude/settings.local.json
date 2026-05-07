@@ -10,7 +10,11 @@
       "Skill(update-config:*)",
       "PowerShell(jq -e '.hooks.PostToolUse[] | select\\(.matcher == \"Write|Edit\"\\) | .hooks[] | select\\(.type == \"command\"\\) | .command' \"c:\\\\Users\\\\samue\\\\OneDrive\\\\Documentos\\\\Claude planejamento\\\\.claude\\\\settings.json\")",
       "Bash(npm run *)",
-      "Bash(timeout 5)"
+      "Bash(timeout 5)",
+      "PowerShell(Start-Process \"http://localhost:5173\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
