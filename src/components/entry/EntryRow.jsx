@@ -1,8 +1,11 @@
+// Linha de item de receita ou despesa — descrição, valor e botão de remover.
+// Quando showObservation é true (apenas nas despesas), exibe também um campo de observação abaixo.
 import { CurrencyInput } from '../ui/CurrencyInput.jsx'
 
 export function EntryRow({ item, onUpdate, onDelete, showObservation }) {
   return (
     <div className="py-1.5">
+      {/* Linha principal: descrição + valor + botão remover */}
       <div className="flex items-center gap-2">
         <input
           type="text"
@@ -27,6 +30,9 @@ export function EntryRow({ item, onUpdate, onDelete, showObservation }) {
           </svg>
         </button>
       </div>
+
+      {/* Campo de observação — aparece apenas nas despesas (showObservation=true).
+          O valor é salvo em item.observation e persistido junto com o item no localStorage. */}
       {showObservation && (
         <textarea
           value={item.observation || ''}
