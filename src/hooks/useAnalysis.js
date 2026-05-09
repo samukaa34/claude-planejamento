@@ -1,3 +1,5 @@
+// Hook que agrega e analisa os dados financeiros dos meses selecionados.
+// Usa useMemo para só recalcular quando clientId ou selectedMonths mudam.
 import { useMemo } from 'react'
 import { getMonthData } from '../data/localStorage.js'
 import { computeMonthSummary, computeTrend, generateInsights } from '../utils/analysis.js'
@@ -6,6 +8,7 @@ export function useAnalysis(clientId, selectedMonths) {
   return useMemo(() => {
     if (!clientId || !selectedMonths?.length) return null
 
+    // Lê e resume cada mês selecionado; descarta meses sem dados salvos
     const entries = selectedMonths
       .map((mk) => {
         const data = getMonthData(clientId, mk)
@@ -16,13 +19,16 @@ export function useAnalysis(clientId, selectedMonths) {
 
     if (!entries.length) return null
 
+    // Combina todos os meses em um único resumo acumulado
     const combined = entries.reduce(
       (acc, e) => ({
         totalIncome: acc.totalIncome + e.totalIncome,
         totalExpenses: acc.totalExpenses + e.totalExpenses,
         savings: acc.savings + e.savings,
+        // Mescla os totais por categoria somando os valores
         incomeByCategory: mergeCategories(acc.incomeByCategory, e.incomeByCategory),
         expensesByCategory: mergeCategories(acc.expensesByCategory, e.expensesByCategory),
+        // Usa o maior número de fontes de renda encontrado em qualquer mês
         incomeSourceCount: Math.max(acc.incomeSourceCount, e.incomeSourceCount),
       }),
       {
@@ -35,8 +41,10 @@ export function useAnalysis(clientId, selectedMonths) {
       },
     )
 
+    // Calcula a taxa de poupança do período consolidado
     combined.savingsRate = combined.totalIncome > 0 ? combined.savings / combined.totalIncome : 0
 
+    // Encontra a categoria de despesa com maior valor no período
     const largestExpense = Object.entries(combined.expensesByCategory).reduce(
       (max, [key, val]) => (val > max.value ? { key, value: val } : max),
       { key: null, value: -1 },
@@ -45,6 +53,8 @@ export function useAnalysis(clientId, selectedMonths) {
     combined.largestExpenseValue = largestExpense.value
 
     const trend = computeTrend(entries)
+
+    // Passa monthKey apenas quando há exatamente 1 mês selecionado (para insights específicos)
     const insights = generateInsights(
       combined,
       trend,
@@ -55,6 +65,7 @@ export function useAnalysis(clientId, selectedMonths) {
   }, [clientId, selectedMonths])
 }
 
+// Soma os valores de duas categorias { key: valor } em um único objeto acumulado
 function mergeCategories(acc, next) {
   const result = { ...acc }
   for (const [key, val] of Object.entries(next || {})) {
