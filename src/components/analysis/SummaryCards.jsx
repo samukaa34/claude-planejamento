@@ -1,5 +1,8 @@
+// Quatro cartões de resumo financeiro exibidos no topo da página de análise:
+// Total Receitas, Total Despesas, Valor Poupado e Taxa de Poupança
 import { formatCurrency, formatPercent } from '../../utils/formatters.js'
 
+// Card individual reutilizável com label, valor principal e texto secundário opcional
 function Card({ label, value, sub, color }) {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -13,6 +16,7 @@ function Card({ label, value, sub, color }) {
 export function SummaryCards({ summary }) {
   if (!summary) return null
 
+  // Cor do valor poupado: vermelho se negativo, verde se ≥ 20%, amarelo se entre 0 e 20%
   const savingsColor =
     summary.savings < 0
       ? 'text-red-600'
@@ -20,6 +24,7 @@ export function SummaryCards({ summary }) {
         ? 'text-green-600'
         : 'text-yellow-600'
 
+  // Mesma lógica de cor aplicada à taxa de poupança em percentual
   const rateColor =
     summary.savingsRate < 0
       ? 'text-red-600'
@@ -38,6 +43,7 @@ export function SummaryCards({ summary }) {
         label="Total Despesas"
         value={formatCurrency(summary.totalExpenses)}
         color="text-gray-900"
+        // Subtexto mostra qual % da renda foi gasta
         sub={summary.totalIncome > 0 ? `${formatPercent(summary.totalExpenses / summary.totalIncome)} da renda` : ''}
       />
       <Card
