@@ -60,6 +60,7 @@ export function CategorySection({ label, items, onChange, accentColor, showObser
               item={item}
               onUpdate={updateItem}
               onDelete={() => deleteItem(item.id)}
+              showObservation={showObservation}
             />
           ))}
           <button
