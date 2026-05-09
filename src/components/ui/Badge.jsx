@@ -1,4 +1,6 @@
+// Etiqueta colorida pequena usada para exibir status ou valores destacados (ex: taxa de poupança)
 export function Badge({ children, color = 'gray' }) {
+  // Mapeamento de cor semântica para classes Tailwind de fundo e texto
   const colors = {
     gray: 'bg-gray-100 text-gray-700',
     green: 'bg-green-100 text-green-800',
