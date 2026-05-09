@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { EntryRow } from './EntryRow.jsx'
 import { formatCurrency } from '../../utils/formatters.js'
 
-export function CategorySection({ label, items, onChange, accentColor }) {
+export function CategorySection({ label, items, onChange, accentColor, showObservation }) {
   const [open, setOpen] = useState(true)
 
   const total = items.reduce((s, i) => s + (i.amount || 0), 0)
