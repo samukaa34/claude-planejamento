@@ -1,3 +1,4 @@
+// Cabeçalho fixo no topo de cada página — exibe título, subtítulo e botão de voltar quando necessário
 import { Link, useNavigate } from 'react-router-dom'
 
 export function Header({ title, subtitle, backTo }) {
@@ -6,6 +7,7 @@ export function Header({ title, subtitle, backTo }) {
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="max-w-6xl mx-auto flex items-center gap-3">
+        {/* Seta de voltar — aparece apenas quando backTo é fornecido */}
         {backTo && (
           <button
             onClick={() => navigate(backTo)}
@@ -18,6 +20,7 @@ export function Header({ title, subtitle, backTo }) {
           </button>
         )}
         <div className="flex items-center gap-3 flex-1">
+          {/* Ícone de gráfico azul — aparece apenas na página raiz (sem botão de voltar) */}
           {!backTo && (
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
