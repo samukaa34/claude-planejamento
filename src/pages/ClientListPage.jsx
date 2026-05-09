@@ -1,3 +1,4 @@
+// Página inicial da aplicação — lista todos os clientes cadastrados com busca, criação e exclusão
 import { useState } from 'react'
 import { Header } from '../components/layout/Header.jsx'
 import { ClientCard } from '../components/clients/ClientCard.jsx'
@@ -9,16 +10,26 @@ import { useClients } from '../hooks/useClients.js'
 
 export function ClientListPage() {
   const { clients, add, update, remove } = useClients()
+
+  // Texto da busca por nome ou CPF
   const [search, setSearch] = useState('')
+
+  // Controla abertura do formulário de criação/edição
   const [formOpen, setFormOpen] = useState(false)
+
+  // Cliente sendo editado (null = criação de novo)
   const [editTarget, setEditTarget] = useState(null)
+
+  // Cliente pendente de confirmação de exclusão
   const [deleteTarget, setDeleteTarget] = useState(null)
 
+  // Filtra clientes pelo texto de busca (nome ou CPF)
   const filtered = clients.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
     (c.cpf || '').includes(search),
   )
 
+  // Decide se salva como edição ou criação dependendo de editTarget
   function handleSave(data) {
     if (editTarget) {
       update({ ...editTarget, ...data })
@@ -28,11 +39,13 @@ export function ClientListPage() {
     }
   }
 
+  // Abre o formulário com os dados do cliente para edição
   function openEdit(client) {
     setEditTarget(client)
     setFormOpen(true)
   }
 
+  // Executa a exclusão após confirmação no modal
   function confirmDelete() {
     if (deleteTarget) {
       remove(deleteTarget.id)
@@ -45,6 +58,7 @@ export function ClientListPage() {
       <Header title="Planejamento Financeiro" subtitle="Assessoria de Investimentos" />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Barra de busca + botão de novo cliente */}
         <div className="flex items-center gap-3 mb-6">
           <div className="relative flex-1 max-w-md">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,6 +80,7 @@ export function ClientListPage() {
           </Button>
         </div>
 
+        {/* Estado vazio (lista vazia ou sem resultado na busca) ou grid de cards */}
         {filtered.length === 0 ? (
           <EmptyState
             title={search ? 'Nenhum cliente encontrado' : 'Nenhum cliente cadastrado'}
@@ -90,6 +105,7 @@ export function ClientListPage() {
         )}
       </main>
 
+      {/* Modal de criação/edição de cliente */}
       <ClientForm
         open={formOpen}
         onClose={() => { setFormOpen(false); setEditTarget(null) }}
@@ -97,6 +113,7 @@ export function ClientListPage() {
         initial={editTarget}
       />
 
+      {/* Modal de confirmação de exclusão */}
       <Modal
         open={!!deleteTarget}
         onClose={() => setDeleteTarget(null)}
