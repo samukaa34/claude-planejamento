@@ -1,8 +1,11 @@
+// Tabela detalhada de despesas por categoria: valor, % da renda e % das despesas com barra visual
 import { toCategoryTableData } from '../../utils/chartHelpers.js'
 import { formatCurrency, formatPercent } from '../../utils/formatters.js'
 
 export function CategoryBreakdownTable({ summary }) {
   if (!summary) return null
+
+  // Converte o resumo em linhas ordenadas do maior para o menor valor
   const rows = toCategoryTableData(summary)
 
   return (
@@ -31,6 +34,7 @@ export function CategoryBreakdownTable({ summary }) {
           <tbody className="divide-y divide-gray-100">
             {rows.map((row) => (
               <tr key={row.key} className="hover:bg-gray-50">
+                {/* Nome da categoria com bolinha colorida */}
                 <td className="px-6 py-3">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full" style={{ background: row.color }} />
@@ -43,6 +47,7 @@ export function CategoryBreakdownTable({ summary }) {
                 <td className="px-6 py-3 text-right text-gray-600">
                   {formatPercent(row.shareOfIncome)}
                 </td>
+                {/* % das despesas com barra de progresso colorida ao lado do número */}
                 <td className="px-6 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">
                     <div className="w-20 bg-gray-100 rounded-full h-1.5">
@@ -58,6 +63,8 @@ export function CategoryBreakdownTable({ summary }) {
                 </td>
               </tr>
             ))}
+
+            {/* Linha de totais no rodapé da tabela */}
             <tr className="bg-gray-50 font-semibold">
               <td className="px-6 py-3 text-gray-700">Total Despesas</td>
               <td className="px-6 py-3 text-right text-gray-900">{formatCurrency(summary.totalExpenses)}</td>
