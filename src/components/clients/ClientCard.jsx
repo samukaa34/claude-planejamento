@@ -1,3 +1,5 @@
+// Card de cliente exibido na lista principal — mostra nome, CPF, meses registrados
+// e botões de editar, excluir e abrir o detalhe do cliente
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../ui/Button.jsx'
 import { formatMonthLabel } from '../../utils/formatters.js'
@@ -5,12 +7,15 @@ import { getAvailableMonths } from '../../data/localStorage.js'
 
 export function ClientCard({ client, onEdit, onDelete }) {
   const navigate = useNavigate()
+
+  // Lê os meses disponíveis direto do localStorage para exibir o contador e o último mês
   const months = getAvailableMonths(client.id)
-  const lastMonth = months[0]
+  const lastMonth = months[0] // meses estão em ordem decrescente, então [0] é o mais recente
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-2">
+        {/* Área clicável que navega para o detalhe do cliente */}
         <div
           className="flex-1 cursor-pointer min-w-0"
           onClick={() => navigate(`/cliente/${client.id}`)}
@@ -18,12 +23,16 @@ export function ClientCard({ client, onEdit, onDelete }) {
           <h3 className="font-semibold text-gray-900 truncate">{client.name}</h3>
           {client.cpf && <p className="text-xs text-gray-500 mt-0.5">CPF: {client.cpf}</p>}
           <div className="mt-2 flex flex-wrap gap-2 text-xs text-gray-500">
+            {/* Quantidade de meses com dados registrados */}
             <span>{months.length} {months.length === 1 ? 'mês registrado' : 'meses registrados'}</span>
+            {/* Último mês registrado, em azul */}
             {lastMonth && (
               <span className="text-blue-600">Último: {formatMonthLabel(lastMonth)}</span>
             )}
           </div>
         </div>
+
+        {/* Botões de editar (lápis) e excluir (lixeira) */}
         <div className="flex items-center gap-1 flex-shrink-0">
           <button
             onClick={() => onEdit(client)}
@@ -47,6 +56,8 @@ export function ClientCard({ client, onEdit, onDelete }) {
           </button>
         </div>
       </div>
+
+      {/* Botão Abrir na parte inferior do card */}
       <div className="mt-3 pt-3 border-t border-gray-100">
         <Button
           size="sm"
