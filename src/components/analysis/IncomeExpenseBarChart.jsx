@@ -1,8 +1,10 @@
+// Gráfico de barras agrupadas comparando Receitas vs Despesas mês a mês
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import { formatCurrency } from '../../utils/formatters.js'
 
+// Tooltip customizado com cor de cada série e valor formatado em reais
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
@@ -18,6 +20,7 @@ function CustomTooltip({ active, payload, label }) {
   )
 }
 
+// Formata os valores do eixo Y abreviando milhares (ex: R$1k, R$10k)
 function yFormatter(v) {
   if (v >= 1000) return `R$${(v / 1000).toFixed(0)}k`
   return `R$${v}`
@@ -26,6 +29,7 @@ function yFormatter(v) {
 export function IncomeExpenseBarChart({ entries }) {
   if (!entries?.length) return null
 
+  // Monta o array de dados no formato { month, Receitas, Despesas }
   const data = entries.map((e) => ({
     month: e.monthKey,
     Receitas: e.totalIncome,
@@ -42,6 +46,7 @@ export function IncomeExpenseBarChart({ entries }) {
           <YAxis tickFormatter={yFormatter} tick={{ fontSize: 11 }} />
           <Tooltip content={<CustomTooltip />} />
           <Legend formatter={(v) => <span className="text-xs text-gray-600">{v}</span>} />
+          {/* Receitas em azul, Despesas em laranja — bordas arredondadas no topo */}
           <Bar dataKey="Receitas" fill="#3b82f6" radius={[4, 4, 0, 0]} />
           <Bar dataKey="Despesas" fill="#f97316" radius={[4, 4, 0, 0]} />
         </BarChart>
