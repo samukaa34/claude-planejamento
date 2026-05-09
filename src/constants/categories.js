@@ -1,3 +1,4 @@
+// Categorias de receita disponíveis para lançamento mensal
 export const INCOME_CATEGORIES = [
   { key: 'salario', label: 'Salário' },
   { key: 'decimoTerceiro', label: '13° Salário' },
@@ -8,6 +9,7 @@ export const INCOME_CATEGORIES = [
   { key: 'deposito', label: 'Depósito' },
 ]
 
+// Categorias de despesa — cada uma tem uma cor usada nos gráficos
 export const EXPENSE_CATEGORIES = [
   { key: 'fixas', label: 'Despesas Fixas', color: '#ef4444' },
   { key: 'variaveis', label: 'Despesas Variáveis', color: '#f97316' },
@@ -15,6 +17,7 @@ export const EXPENSE_CATEGORIES = [
   { key: 'adicionais', label: 'Adicionais', color: '#8b5cf6' },
 ]
 
+// Estrutura vazia de receitas — usada ao criar um novo mês sem dados anteriores
 export const EMPTY_INCOME = {
   salario: [],
   decimoTerceiro: [],
@@ -25,6 +28,7 @@ export const EMPTY_INCOME = {
   deposito: [],
 }
 
+// Estrutura vazia de despesas — usada ao criar um novo mês
 export const EMPTY_EXPENSES = {
   fixas: [],
   variaveis: [],
