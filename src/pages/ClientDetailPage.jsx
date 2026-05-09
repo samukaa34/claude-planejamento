@@ -1,3 +1,4 @@
+// Página de detalhe do cliente — lista os meses registrados e permite adicionar ou excluir meses
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Header } from '../components/layout/Header.jsx'
@@ -11,6 +12,7 @@ import { computeMonthSummary } from '../utils/analysis.js'
 import { getMonthData } from '../data/localStorage.js'
 import { formatCurrency, formatPercent, formatMonthLabel, allMonthOptions, currentMonthKey } from '../utils/formatters.js'
 
+// Retorna a cor do badge de acordo com a taxa de poupança
 function savingsColor(rate) {
   if (rate < 0) return 'red'
   if (rate < 0.1) return 'orange'
@@ -25,10 +27,16 @@ export function ClientDetailPage() {
   const { months, deleteMonth } = useFinancialData(clientId)
   const client = find(clientId)
 
+  // Controla abertura do seletor de mês para adicionar novo
   const [monthPickerOpen, setMonthPickerOpen] = useState(false)
+
+  // Mês selecionado no picker (padrão: mês atual)
   const [selectedNewMonth, setSelectedNewMonth] = useState(currentMonthKey())
+
+  // Mês pendente de confirmação de exclusão
   const [deleteTarget, setDeleteTarget] = useState(null)
 
+  // Redireciona para a lista se o cliente não existir
   if (!client) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -40,18 +48,22 @@ export function ClientDetailPage() {
     )
   }
 
+  // Apenas meses ainda não cadastrados ficam disponíveis no seletor
   const availableNewMonths = allMonthOptions().filter((o) => !months.includes(o.key))
 
+  // Abre o seletor pré-selecionando o primeiro mês disponível
   function openNewMonth() {
     const first = availableNewMonths[0]?.key || currentMonthKey()
     setSelectedNewMonth(first)
     setMonthPickerOpen(true)
   }
 
+  // Navega para a tela de entrada de dados do mês
   function goToMonth(monthKey) {
     navigate(`/cliente/${clientId}/mes/${monthKey}`)
   }
 
+  // Executa a exclusão do mês após confirmação
   function confirmDelete() {
     if (deleteTarget) {
       deleteMonth(deleteTarget)
@@ -73,6 +85,7 @@ export function ClientDetailPage() {
             Meses Registrados ({months.length})
           </h2>
           <div className="flex gap-2">
+            {/* Botão de análise aparece apenas quando há pelo menos 1 mês salvo */}
             {months.length > 0 && (
               <Button variant="secondary" onClick={() => navigate(`/cliente/${clientId}/analise`)}>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -82,6 +95,7 @@ export function ClientDetailPage() {
                 Ver Análise
               </Button>
             )}
+            {/* Desabilitado quando todos os meses dos últimos 2 anos já foram adicionados */}
             <Button onClick={openNewMonth} disabled={availableNewMonths.length === 0}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -91,6 +105,7 @@ export function ClientDetailPage() {
           </div>
         </div>
 
+        {/* Lista de meses ou estado vazio */}
         {months.length === 0 ? (
           <EmptyState
             title="Nenhum mês registrado"
@@ -111,6 +126,7 @@ export function ClientDetailPage() {
                 >
                   <div className="flex items-start justify-between mb-3">
                     <h3 className="font-semibold text-gray-900">{formatMonthLabel(monthKey)}</h3>
+                    {/* Badge colorido com a taxa de poupança do mês */}
                     <Badge color={savingsColor(rate)}>{formatPercent(rate)}</Badge>
                   </div>
                   {summary && (
@@ -153,7 +169,7 @@ export function ClientDetailPage() {
         )}
       </main>
 
-      {/* Month picker modal */}
+      {/* Modal para escolher o mês a ser adicionado */}
       <Modal open={monthPickerOpen} onClose={() => setMonthPickerOpen(false)} title="Selecionar Mês">
         <div className="space-y-4">
           <div>
@@ -177,7 +193,7 @@ export function ClientDetailPage() {
         </div>
       </Modal>
 
-      {/* Delete month modal */}
+      {/* Modal de confirmação de exclusão de mês */}
       <Modal open={!!deleteTarget} onClose={() => setDeleteTarget(null)} title="Excluir mês">
         <p className="text-sm text-gray-600 mb-5">
           Tem certeza que deseja excluir os dados de <strong>{deleteTarget ? formatMonthLabel(deleteTarget) : ''}</strong>?
