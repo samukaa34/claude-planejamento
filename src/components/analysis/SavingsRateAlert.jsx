@@ -1,3 +1,5 @@
+// Faixa de alerta colorida que comunica a saúde da taxa de poupança com ícone e mensagem.
+// Quatro estados possíveis: negativo (vermelho), muito baixo (laranja), abaixo da meta (amarelo) e saudável (verde)
 import { formatPercent } from '../../utils/formatters.js'
 
 export function SavingsRateAlert({ savingsRate }) {
@@ -5,6 +7,7 @@ export function SavingsRateAlert({ savingsRate }) {
 
   let bg, text, icon, message
 
+  // Define as variáveis de estilo e mensagem de acordo com o valor da taxa
   if (savingsRate < 0) {
     bg = 'bg-red-50 border-red-200'
     text = 'text-red-800'
