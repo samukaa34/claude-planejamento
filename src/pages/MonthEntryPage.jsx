@@ -115,6 +115,7 @@ export function MonthEntryPage() {
                   items={formData.expenses[cat.key] || []}
                   onChange={(items) => setExpenseCategory(cat.key, items)}
                   accentColor={cat.color}
+                  showObservation
                 />
               ))}
             </div>
