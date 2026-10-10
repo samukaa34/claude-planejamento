@@ -7,6 +7,8 @@ import { Button } from '../components/ui/Button.jsx'
 import { Modal } from '../components/ui/Modal.jsx'
 import { EmptyState } from '../components/ui/EmptyState.jsx'
 import { useClients } from '../hooks/useClients.js'
+import { importLegacyData, notifyError } from '../data/store.js'
+import { getLegacyData, markLegacyImported } from '../data/localStorage.js'
 
 export function ClientListPage() {
   const { clients, add, update, remove, refresh } = useClients()
