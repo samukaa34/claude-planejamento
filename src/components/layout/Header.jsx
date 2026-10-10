@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 export function Header({ title, subtitle, backTo }) {
   const navigate = useNavigate()
+  const { user, signOut } = useAuth()
 
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4">
