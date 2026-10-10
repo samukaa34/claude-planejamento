@@ -82,6 +82,23 @@ export function ClientListPage() {
       <Header title="Planejamento Financeiro" subtitle="Assessoria de Investimentos" />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Aviso de importação dos dados que estavam salvos apenas neste navegador */}
+        {legacy && (
+          <div className="mb-6 flex flex-wrap items-center gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
+            <p className="flex-1 min-w-[240px] text-sm text-blue-900">
+              Encontramos {legacy.clients.length}{' '}
+              {legacy.clients.length === 1 ? 'cliente salvo' : 'clientes salvos'} neste navegador.
+              Deseja importar para a sua conta na nuvem?
+            </p>
+            <Button size="sm" onClick={handleImport} disabled={importing}>
+              {importing ? 'Importando...' : 'Importar'}
+            </Button>
+            <Button size="sm" variant="ghost" onClick={dismissImport} disabled={importing}>
+              Agora não
+            </Button>
+          </div>
+        )}
+
         {/* Barra de busca + botão de novo cliente */}
         <div className="flex items-center gap-3 mb-6">
           <div className="relative flex-1 max-w-md">
