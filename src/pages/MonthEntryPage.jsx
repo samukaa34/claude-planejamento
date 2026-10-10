@@ -22,6 +22,9 @@ export function MonthEntryPage() {
   // Indica se os dados foram salvos desde a última alteração
   const [saved, setSaved] = useState(false)
 
+  // Indica que uma gravação está em andamento (desabilita os botões de salvar)
+  const [saving, setSaving] = useState(false)
+
   // Recarrega os dados ao navegar para um mês diferente sem desmontar o componente
   useEffect(() => {
     setFormData(getMonth(monthKey))
