@@ -8,22 +8,25 @@ import { AnalysisPage } from './pages/AnalysisPage.jsx'
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Página inicial: lista de clientes */}
-        <Route path="/" element={<ClientListPage />} />
+      {/* Exige login e carrega os dados antes de exibir qualquer rota */}
+      <AuthProvider>
+        <Routes>
+          {/* Página inicial: lista de clientes */}
+          <Route path="/" element={<ClientListPage />} />
 
-        {/* Detalhe do cliente: lista os meses registrados */}
-        <Route path="/cliente/:clientId" element={<ClientDetailPage />} />
+          {/* Detalhe do cliente: lista os meses registrados */}
+          <Route path="/cliente/:clientId" element={<ClientDetailPage />} />
 
-        {/* Entrada de dados de um mês específico */}
-        <Route path="/cliente/:clientId/mes/:monthKey" element={<MonthEntryPage />} />
+          {/* Entrada de dados de um mês específico */}
+          <Route path="/cliente/:clientId/mes/:monthKey" element={<MonthEntryPage />} />
 
-        {/* Página de análise financeira do cliente */}
-        <Route path="/cliente/:clientId/analise" element={<AnalysisPage />} />
+          {/* Página de análise financeira do cliente */}
+          <Route path="/cliente/:clientId/analise" element={<AnalysisPage />} />
 
-        {/* Qualquer rota desconhecida redireciona para a raiz */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* Qualquer rota desconhecida redireciona para a raiz */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
