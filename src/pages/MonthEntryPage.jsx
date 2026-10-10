@@ -58,16 +58,20 @@ export function MonthEntryPage() {
   const totalExpenses = totalOf(formData.expenses, EXPENSE_CATEGORIES)
   const savings = totalIncome - totalExpenses
 
-  // Persiste os dados no localStorage e marca como salvo
-  function handleSave() {
-    saveMonth(monthKey, formData)
-    setSaved(true)
+  // Persiste os dados no Supabase e marca como salvo se a gravação der certo
+  async function handleSave() {
+    setSaving(true)
+    const ok = await saveMonth(monthKey, formData)
+    setSaving(false)
+    if (ok) setSaved(true)
   }
 
   // Salva e navega direto para a página de análise do cliente
-  function handleSaveAndAnalyze() {
-    saveMonth(monthKey, formData)
-    navigate(`/cliente/${clientId}/analise`)
+  async function handleSaveAndAnalyze() {
+    setSaving(true)
+    const ok = await saveMonth(monthKey, formData)
+    setSaving(false)
+    if (ok) navigate(`/cliente/${clientId}/analise`)
   }
 
   // Limpa todos os dados do mês após confirmação — despesas ficam zeradas, receitas também
