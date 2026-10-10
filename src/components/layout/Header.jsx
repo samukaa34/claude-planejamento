@@ -1,5 +1,6 @@
 // Cabeçalho fixo no topo de cada página — exibe título, subtítulo e botão de voltar quando necessário
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../auth/AuthProvider.jsx'
 
 export function Header({ title, subtitle, backTo }) {
   const navigate = useNavigate()
