@@ -7,7 +7,7 @@
           {
             "type": "command",
             "shell": "powershell",
-            "command": "Set-Location \"c:\\Users\\samue\\OneDrive\\Documentos\\Claude planejamento\"; git add -A; git diff --cached --quiet; if ($LASTEXITCODE -ne 0) { git commit -m \"auto: update via Claude Code\"; git push origin main }",
+            "command": "Set-Location $env:CLAUDE_PROJECT_DIR;git add -A; git diff --cached --quiet; if ($LASTEXITCODE -ne 0) { git commit -m \"auto: update via Claude Code\"; git push origin main }",
             "timeout": 30,
             "statusMessage": "Sincronizando com GitHub..."
           }
