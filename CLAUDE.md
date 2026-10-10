@@ -20,17 +20,25 @@ There is no test suite and no linter configured.
 
 ## Architecture
 
-**Financial planning SPA** for a financial advisor to manage clients' monthly income/expense data. UI is in Brazilian Portuguese. No backend — all persistence is through the browser's `localStorage`.
+**Financial planning SPA** for a financial advisor to manage clients' monthly income/expense data. UI is in Brazilian Portuguese. Persistence and auth are on Supabase (project `claude-planejamento`, ref `kvzbcpcwqualgvltdbcm`, region sa-east-1). The URL and publishable key come from `.env.local` (see `.env.example`).
 
 ### Data model
 
-Two storage keys per client:
-- `fp_clients` — array of all client objects
-- `fp_data_<clientId>` — object keyed by `monthKey` (format `YYYY-MM`), each value is a `monthData` record
+Two Postgres tables, both protected by RLS so each signed-in user only sees their own rows:
+- `clients` — one row per client, owned by `user_id`
+- `month_data` — one row per `(client_id, month_key)` (format `YYYY-MM`), with `income` / `expenses` as `jsonb`
 
-A `monthData` record has `{ monthKey, income, expenses, notes, savedAt }` where `income` and `expenses` are objects whose keys map to arrays of `{ description, amount }` line items. The canonical shape comes from `EMPTY_INCOME` / `EMPTY_EXPENSES` in `src/constants/categories.js`.
+The schema lives in `supabase/migrations/`.
 
-All reads/writes go through `src/data/localStorage.js` — never touch `localStorage` directly elsewhere.
+In the app, a `monthData` record has `{ monthKey, income, expenses, notes, savedAt }` where `income` and `expenses` are objects whose keys map to arrays of `{ description, amount }` line items. The canonical shape comes from `EMPTY_INCOME` / `EMPTY_EXPENSES` in `src/constants/categories.js`.
+
+All reads/writes go through `src/data/store.js` — never call Supabase tables directly elsewhere. After login, `loadAll()` pulls every client and month into an in-memory copy, so reads are synchronous; writes are async, hit Supabase first and then update the copy.
+
+`src/data/localStorage.js` only reads the pre-Supabase browser data (`fp_clients`, `fp_data_<clientId>`) for the one-time import banner on `ClientListPage`.
+
+### Auth
+
+`AuthProvider` (`src/components/auth/`) wraps the routes: it shows `LoginPage` (email + password) when there is no session and loads the data before rendering any page. `useAuth()` exposes `user` and `signOut`.
 
 ### Routing
 
