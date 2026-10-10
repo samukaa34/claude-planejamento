@@ -1,7 +1,7 @@
 // Hook que agrega e analisa os dados financeiros dos meses selecionados.
 // Usa useMemo para só recalcular quando clientId ou selectedMonths mudam.
 import { useMemo } from 'react'
-import { getMonthData } from '../data/localStorage.js'
+import { getMonthData } from '../data/store.js'
 import { computeMonthSummary, computeTrend, generateInsights } from '../utils/analysis.js'
 
 export function useAnalysis(clientId, selectedMonths) {
