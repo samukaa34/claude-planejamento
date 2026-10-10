@@ -34,6 +34,11 @@ export function Header({ title, subtitle, backTo }) {
             {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
           </div>
         </div>
+        {/* Conta em uso e botão para sair */}
+        <div className="flex items-center gap-3 text-xs text-gray-500">
+          <span className="hidden sm:inline">{user.email}</span>
+          <button onClick={signOut} className="text-blue-600 hover:underline">Sair</button>
+        </div>
       </div>
     </header>
   )
