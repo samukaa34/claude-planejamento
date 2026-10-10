@@ -15,7 +15,7 @@ import { EmptyState } from '../components/ui/EmptyState.jsx'
 import { useClients } from '../hooks/useClients.js'
 import { useFinancialData } from '../hooks/useFinancialData.js'
 import { useAnalysis } from '../hooks/useAnalysis.js'
-import { exportClientJSON } from '../data/localStorage.js'
+import { exportClientJSON } from '../data/store.js'
 import { formatMonthLabel } from '../utils/formatters.js'
 
 export function AnalysisPage() {
