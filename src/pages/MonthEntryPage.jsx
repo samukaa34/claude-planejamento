@@ -176,10 +176,10 @@ export function MonthEntryPage() {
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={handleClear}>Limpar</Button>
             {/* Botão Salvar muda para "Salvo ✓" após a primeira gravação */}
-            <Button variant="secondary" size="sm" onClick={handleSave}>
-              {saved ? 'Salvo ✓' : 'Salvar'}
+            <Button variant="secondary" size="sm" onClick={handleSave} disabled={saving}>
+              {saving ? 'Salvando...' : saved ? 'Salvo ✓' : 'Salvar'}
             </Button>
-            <Button size="sm" onClick={handleSaveAndAnalyze}>
+            <Button size="sm" onClick={handleSaveAndAnalyze} disabled={saving}>
               Analisar
             </Button>
           </div>
