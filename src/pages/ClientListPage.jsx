@@ -9,7 +9,31 @@ import { EmptyState } from '../components/ui/EmptyState.jsx'
 import { useClients } from '../hooks/useClients.js'
 
 export function ClientListPage() {
-  const { clients, add, update, remove } = useClients()
+  const { clients, add, update, remove, refresh } = useClients()
+
+  // Dados antigos salvos neste navegador que ainda não foram enviados ao Supabase
+  const [legacy, setLegacy] = useState(() => getLegacyData())
+  const [importing, setImporting] = useState(false)
+
+  // Envia os dados antigos para o Supabase e atualiza a lista
+  async function handleImport() {
+    setImporting(true)
+    try {
+      await importLegacyData(legacy)
+      markLegacyImported()
+      setLegacy(null)
+      refresh()
+    } catch (err) {
+      notifyError(err)
+    }
+    setImporting(false)
+  }
+
+  // Oculta o aviso sem importar; os dados antigos continuam no navegador
+  function dismissImport() {
+    markLegacyImported()
+    setLegacy(null)
+  }
 
   // Texto da busca por nome ou CPF
   const [search, setSearch] = useState('')
