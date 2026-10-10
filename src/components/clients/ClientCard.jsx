@@ -3,7 +3,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../ui/Button.jsx'
 import { formatMonthLabel } from '../../utils/formatters.js'
-import { getAvailableMonths } from '../../data/localStorage.js'
+import { getAvailableMonths } from '../../data/store.js'
 
 export function ClientCard({ client, onEdit, onDelete }) {
   const navigate = useNavigate()
