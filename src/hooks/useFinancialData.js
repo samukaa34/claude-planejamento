@@ -2,13 +2,13 @@
 // Expõe lista de meses salvos e operações de leitura, gravação e exclusão.
 import { useState, useCallback } from 'react'
 import {
-  getClientData,
   getAvailableMonths,
   getMonthData,
   saveMonthData,
   deleteMonthData,
   emptyMonthData,
-} from '../data/localStorage.js'
+  notifyError,
+} from '../data/store.js'
 
 export function useFinancialData(clientId) {
   // Lista de chaves de meses salvos (ex: ["2024-03", "2024-02"]), em ordem decrescente
@@ -23,20 +23,30 @@ export function useFinancialData(clientId) {
     [clientId],
   )
 
-  // Salva os dados do mês e atualiza a lista de meses disponíveis
+  // Salva os dados do mês e atualiza a lista de meses disponíveis; retorna false se falhar
   const saveMonth = useCallback(
-    (monthKey, data) => {
-      saveMonthData(clientId, monthKey, data)
-      setMonths(getAvailableMonths(clientId))
+    async (monthKey, data) => {
+      try {
+        await saveMonthData(clientId, monthKey, data)
+        setMonths(getAvailableMonths(clientId))
+        return true
+      } catch (err) {
+        notifyError(err)
+        return false
+      }
     },
     [clientId],
   )
 
   // Remove os dados de um mês e atualiza a lista
   const deleteMonth = useCallback(
-    (monthKey) => {
-      deleteMonthData(clientId, monthKey)
-      setMonths(getAvailableMonths(clientId))
+    async (monthKey) => {
+      try {
+        await deleteMonthData(clientId, monthKey)
+        setMonths(getAvailableMonths(clientId))
+      } catch (err) {
+        notifyError(err)
+      }
     },
     [clientId],
   )
