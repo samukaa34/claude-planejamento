@@ -1,5 +1,6 @@
 // Componente raiz — define todas as rotas da aplicação usando React Router
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './components/auth/AuthProvider.jsx'
 import { ClientListPage } from './pages/ClientListPage.jsx'
 import { ClientDetailPage } from './pages/ClientDetailPage.jsx'
 import { MonthEntryPage } from './pages/MonthEntryPage.jsx'
