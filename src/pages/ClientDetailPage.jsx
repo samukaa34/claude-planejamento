@@ -9,7 +9,7 @@ import { EmptyState } from '../components/ui/EmptyState.jsx'
 import { useClients } from '../hooks/useClients.js'
 import { useFinancialData } from '../hooks/useFinancialData.js'
 import { computeMonthSummary } from '../utils/analysis.js'
-import { getMonthData } from '../data/localStorage.js'
+import { getMonthData } from '../data/store.js'
 import { formatCurrency, formatPercent, formatMonthLabel, allMonthOptions, currentMonthKey } from '../utils/formatters.js'
 
 // Retorna a cor do badge de acordo com a taxa de poupança
