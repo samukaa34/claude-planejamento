@@ -8,7 +8,7 @@ import { getAvailableMonths } from '../../data/store.js'
 export function ClientCard({ client, onEdit, onDelete }) {
   const navigate = useNavigate()
 
-  // Lê os meses disponíveis direto do localStorage para exibir o contador e o último mês
+  // Lê os meses disponíveis direto da camada de dados para exibir o contador e o último mês
   const months = getAvailableMonths(client.id)
   const lastMonth = months[0] // meses estão em ordem decrescente, então [0] é o mais recente
 
