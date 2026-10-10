@@ -32,7 +32,7 @@ export function EntryRow({ item, onUpdate, onDelete, showObservation }) {
       </div>
 
       {/* Campo de observação — aparece apenas nas despesas (showObservation=true).
-          O valor é salvo em item.observation e persistido junto com o item no localStorage. */}
+          O valor é salvo em item.observation e persistido junto com o item no Supabase. */}
       {showObservation && (
         <textarea
           value={item.observation || ''}
